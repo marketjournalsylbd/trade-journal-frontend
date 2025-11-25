@@ -30,13 +30,13 @@ export default function Home() {
         </div>
 
         <div className="md:col-span-1">
-    <AddTrade onAdded={() => setReload(!reload)} />
-  </div>
+          <AddTrade onAdded={() => setReload(!reload)} />
+        </div>
 
         {/* Right – Dashboard Area */}
         <div className="md:col-span-2">
           <div className="rounded-2xl shadow-xl bg-white/80 backdrop-blur-lg p-6 border border-gray-200">
-            <Dashboard key={reload} />
+            <Dashboard key={String(reload)} />
           </div>
         </div>
 
