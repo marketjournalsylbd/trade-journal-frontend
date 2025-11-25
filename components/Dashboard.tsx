@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import TradeTable from "./TradeTable";
+import Footer from "./Footer";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -179,7 +180,9 @@ export default function Dashboard() {
                 </th>
               </tr>
             </thead>
-
+            
+            <Footer summary={summary} trades={trades} />
+            
             <tbody>
               {trades
                 .slice()
