@@ -78,14 +78,16 @@ export default function Dashboard() {
   const d = chartData();
 
   return (
-    <div className="p-6">
-      <h2 className="text-4xl font-extrabold tracking-tight mb-8">
+    <div className="p-6 max-w-7xl mx-auto">
+
+      {/* Title */}
+      <h2 className="text-4xl font-extrabold tracking-tight mb-10 text-center md:text-left">
         📊 Performance Dashboard
       </h2>
 
       {/* Stats Cards */}
       {summary && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-12">
           {[
             { label: "Total PnL", value: summary.total_pnl.toFixed(2) },
             { label: "Total Trades", value: summary.num_trades },
@@ -103,7 +105,7 @@ export default function Dashboard() {
           ].map((card, i) => (
             <div
               key={i}
-              className="p-6 rounded-2xl shadow-lg bg-white/70 backdrop-blur-md border border-gray-200"
+              className="p-6 rounded-2xl shadow-lg bg-white/80 backdrop-blur-md border border-gray-200 flex flex-col justify-center"
             >
               <p className="text-gray-600 text-sm tracking-wide">
                 {card.label}
@@ -115,12 +117,12 @@ export default function Dashboard() {
       )}
 
       {/* Equity Curve */}
-      <div className="mb-12 bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-        <h3 className="text-xl font-semibold mb-4">
+      <div className="mb-14 bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+        <h3 className="text-xl font-semibold mb-6 text-center md:text-left">
           📈 Equity Curve
         </h3>
 
-        <div className="max-w-3xl">
+        <div className="max-w-4xl mx-auto">
           <Line
             data={{
               labels: d.labels,
@@ -149,32 +151,32 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table Section */}
       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-        <h3 className="text-xl font-semibold mb-4">
+        <h3 className="text-xl font-semibold mb-6 text-center md:text-left">
           📄 Recent Trades
         </h3>
 
-        {/* FIX: Remove extra TradeTable that caused double fetch */}
+        {/* FIX: duplicate fetch removed */}
         <TradeTable />
 
-        <div className="overflow-x-auto mt-8">
-          <table className="w-full border-collapse">
+        <div className="overflow-x-auto mt-10">
+          <table className="w-full border-collapse rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-gray-50">
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
+              <tr className="bg-gray-100">
+                <th className="border px-4 py-3 text-left text-sm text-gray-600">
                   Symbol
                 </th>
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
+                <th className="border px-4 py-3 text-left text-sm text-gray-600">
                   Entry
                 </th>
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
+                <th className="border px-4 py-3 text-left text-sm text-gray-600">
                   Exit
                 </th>
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
+                <th className="border px-4 py-3 text-left text-sm text-gray-600">
                   Size
                 </th>
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
+                <th className="border px-4 py-3 text-left text-sm text-gray-600">
                   PnL
                 </th>
               </tr>
@@ -187,16 +189,16 @@ export default function Dashboard() {
                 .slice(0, 20)
                 .map((t) => (
                   <tr key={t.id} className="hover:bg-gray-50 transition">
-                    <td className="border px-4 py-2">{t.symbol}</td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-4 py-3">{t.symbol}</td>
+                    <td className="border px-4 py-3">
                       {new Date(t.entry_time).toLocaleString()}
                     </td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-4 py-3">
                       {new Date(t.exit_time).toLocaleString()}
                     </td>
-                    <td className="border px-4 py-2">{t.size}</td>
+                    <td className="border px-4 py-3">{t.size}</td>
                     <td
-                      className={`border px-4 py-2 font-semibold ${
+                      className={`border px-4 py-3 font-semibold ${
                         t.pnl > 0 ? "text-green-600" : "text-red-600"
                       }`}
                     >
