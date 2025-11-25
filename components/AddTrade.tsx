@@ -19,7 +19,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
 
     setLoading(true);
     try {
-      await axios.post("http://localhost:8000/api/add-trade", {
+      const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"; {
         symbol,
         entry_price: parseFloat(entry),
         exit_price: parseFloat(exit),
@@ -101,3 +101,4 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
     </div>
   );
 }
+
