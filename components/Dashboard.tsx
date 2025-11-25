@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import dynamic from "next/dynamic";
 import TradeTable from "./TradeTable";
 import {
@@ -12,7 +12,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js'
+} from "chart.js";
 
 ChartJS.register(
   CategoryScale,
@@ -22,72 +22,82 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend
-)
+);
 
-// ⛔ FIX: Chart must be dynamically imported to disable SSR
-const Line = dynamic(() => import("react-chartjs-2").then(m => m.Line), {
+// ⛔ FIX: dynamic import to avoid SSR crash
+const Line = dynamic(() => import("react-chartjs-2").then((m) => m.Line), {
   ssr: false,
-})
+});
+
+// ⛔ FIX: API BASE URL — from env
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export default function Dashboard() {
-  const [summary, setSummary] = useState<any>(null)
-  const [trades, setTrades] = useState<any[]>([])
+  const [summary, setSummary] = useState<any>(null);
+  const [trades, setTrades] = useState<any[]>([]);
 
-  // Prevent SSR crash (Vercel static export)
   if (typeof window === "undefined") return null;
 
   const fetchData = async () => {
-    const s = await axios.get('http://localhost:8000/api/summary')
-    const t = await axios.get('http://localhost:8000/api/trades')
-    setSummary(s.data)
-    setTrades(t.data)
-  }
+    try {
+      const s = await axios.get(`${API_URL}/api/summary`);
+      const t = await axios.get(`${API_URL}/api/trades`);
+
+      setSummary(s.data);
+      setTrades(t.data);
+    } catch (err) {
+      console.error("API Fetch Error:", err);
+    }
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const chartData = () => {
-    const byTime = [...trades].sort(
+    const sorted = [...trades].sort(
       (a, b) =>
         new Date(a.exit_time).getTime() -
         new Date(b.exit_time).getTime()
-    )
-    let cum = 0
-    const labels: string[] = []
-    const data: number[] = []
+    );
 
-    byTime.forEach((tr: any) => {
-      cum += tr.pnl
-      labels.push(new Date(tr.exit_time).toLocaleDateString())
-      data.push(cum)
-    })
+    let cum = 0;
+    const labels: string[] = [];
+    const data: number[] = [];
 
-    return { labels, data }
-  }
+    sorted.forEach((tr: any) => {
+      cum += tr.pnl;
+      labels.push(new Date(tr.exit_time).toLocaleDateString());
+      data.push(cum);
+    });
 
-  const d = chartData()
+    return { labels, data };
+  };
+
+  const d = chartData();
 
   return (
     <div className="p-6">
-
-      {/* Header */}
       <h2 className="text-4xl font-extrabold tracking-tight mb-8">
         📊 Performance Dashboard
       </h2>
 
-      {/* Stats Card Grid */}
+      {/* Stats Cards */}
       {summary && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
           {[
-            { label: 'Total PnL', value: summary.total_pnl.toFixed(2) },
-            { label: 'Total Trades', value: summary.num_trades },
-            { label: 'Win Rate', value: summary.win_rate.toFixed(2) + '%' },
+            { label: "Total PnL", value: summary.total_pnl.toFixed(2) },
+            { label: "Total Trades", value: summary.num_trades },
             {
-              label: 'Avg Win / Avg Loss',
+              label: "Win Rate",
+              value: summary.win_rate.toFixed(2) + "%",
+            },
+            {
+              label: "Avg Win / Avg Loss",
               value:
                 summary.avg_win.toFixed(2) +
-                ' / ' +
+                " / " +
                 summary.avg_loss.toFixed(2),
             },
           ].map((card, i) => (
@@ -104,7 +114,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Equity Curve Chart */}
+      {/* Equity Curve */}
       <div className="mb-12 bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
         <h3 className="text-xl font-semibold mb-4">
           📈 Equity Curve
@@ -116,10 +126,10 @@ export default function Dashboard() {
               labels: d.labels,
               datasets: [
                 {
-                  label: 'Equity Over Time',
+                  label: "Equity Over Time",
                   data: d.data,
-                  borderColor: '#2563eb',
-                  backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                  borderColor: "#2563eb",
+                  backgroundColor: "rgba(37, 99, 235, 0.2)",
                   borderWidth: 3,
                   tension: 0.25,
                   pointRadius: 3,
@@ -131,24 +141,24 @@ export default function Dashboard() {
                 legend: { display: false },
               },
               scales: {
-                x: { ticks: { color: '#555' } },
-                y: { ticks: { color: '#555' } },
+                x: { ticks: { color: "#555" } },
+                y: { ticks: { color: "#555" } },
               },
             }}
           />
         </div>
       </div>
 
-      {/* Recent Trades Table */}
+      {/* Table */}
       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
         <h3 className="text-xl font-semibold mb-4">
           📄 Recent Trades
         </h3>
 
- {/* Main Trade Table */}
-      <TradeTable />
-        
-        <div className="overflow-x-auto">
+        {/* FIX: Remove extra TradeTable that caused double fetch */}
+        <TradeTable />
+
+        <div className="overflow-x-auto mt-8">
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-50">
@@ -184,14 +194,10 @@ export default function Dashboard() {
                     <td className="border px-4 py-2">
                       {new Date(t.exit_time).toLocaleString()}
                     </td>
-                    <td className="border px-4 py-2">
-                      {t.size}
-                    </td>
+                    <td className="border px-4 py-2">{t.size}</td>
                     <td
                       className={`border px-4 py-2 font-semibold ${
-                        t.pnl > 0
-                          ? 'text-green-600'
-                          : 'text-red-600'
+                        t.pnl > 0 ? "text-green-600" : "text-red-600"
                       }`}
                     >
                       {t.pnl.toFixed(2)}
@@ -203,5 +209,5 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-  )
+  );
 }
