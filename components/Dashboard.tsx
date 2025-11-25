@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import dynamic from "next/dynamic";
+import TradeTable from "@/components/TradeTable";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -144,6 +145,9 @@ export default function Dashboard() {
           📄 Recent Trades
         </h3>
 
+ {/* Main Trade Table */}
+      <TradeTable reload={reload} />
+        
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
