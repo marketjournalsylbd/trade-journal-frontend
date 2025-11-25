@@ -11,8 +11,6 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-
   const submitTrade = async () => {
     if (!symbol || !entry || !exit || !qty) {
       setMsg("All fields required.");
@@ -20,18 +18,13 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
     }
 
     setLoading(true);
-
     try {
-      await axios.post(`${API}/api/add-trade`, {
+      await axios.post("http://localhost:8000/api/add-trade", {
         symbol,
         entry_price: parseFloat(entry),
         exit_price: parseFloat(exit),
-        size: parseFloat(qty),       // ✅ FIX (backend expects size)
-        fees: 0,                     // default
-        strategy: "",                // default
+        qty: parseInt(qty),
         notes,
-        entry_time: new Date().toISOString(),  // required
-        exit_time: new Date().toISOString(),   // required
       });
 
       setMsg("Trade added successfully!");
@@ -42,50 +35,51 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
       setExit("");
       setQty("");
       setNotes("");
-
     } catch (err) {
-      console.error(err);
       setMsg("Failed to add trade.");
     }
-
     setLoading(false);
   };
 
   return (
-    <div className="p-6 bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-200">
-      <h3 className="text-xl font-bold mb-4">➕ Add Trade</h3>
+    <div className="w-full max-w-xl mx-auto p-6 bg-white/90 backdrop-blur-xl rounded-2xl shadow-lg border border-gray-200">
+      <h3 className="text-xl font-bold mb-6 text-center">➕ Add Trade</h3>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         <input
           placeholder="Symbol (e.g., EURUSD)"
-          className="w-full p-3 rounded-xl border"
+          className="w-full p-3 rounded-xl border shadow-sm focus:ring-2 focus:ring-blue-400 outline-none"
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
         />
+
         <input
           placeholder="Entry Price"
           type="number"
-          className="w-full p-3 rounded-xl border"
+          className="w-full p-3 rounded-xl border shadow-sm focus:ring-2 focus:ring-blue-400 outline-none"
           value={entry}
           onChange={(e) => setEntry(e.target.value)}
         />
+
         <input
           placeholder="Exit Price"
           type="number"
-          className="w-full p-3 rounded-xl border"
+          className="w-full p-3 rounded-xl border shadow-sm focus:ring-2 focus:ring-blue-400 outline-none"
           value={exit}
           onChange={(e) => setExit(e.target.value)}
         />
+
         <input
           placeholder="Quantity"
           type="number"
-          className="w-full p-3 rounded-xl border"
+          className="w-full p-3 rounded-xl border shadow-sm focus:ring-2 focus:ring-blue-400 outline-none"
           value={qty}
           onChange={(e) => setQty(e.target.value)}
         />
+
         <textarea
           placeholder="Notes (optional)"
-          className="w-full p-3 rounded-xl border"
+          className="w-full p-3 rounded-xl border shadow-sm rounded-2xl focus:ring-2 focus:ring-blue-400 outline-none min-h-[90px]"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
@@ -94,12 +88,16 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
       <button
         onClick={submitTrade}
         disabled={loading}
-        className="w-full mt-4 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+        className="w-full mt-5 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition shadow-md disabled:opacity-60"
       >
         {loading ? "Saving..." : "Add Trade"}
       </button>
 
-      {msg && <p className="mt-3 text-center text-sm text-gray-700">{msg}</p>}
+      {msg && (
+        <p className="mt-4 text-center text-sm text-gray-700 font-medium">
+          {msg}
+        </p>
+      )}
     </div>
   );
 }
