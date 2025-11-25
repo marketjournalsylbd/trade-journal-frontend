@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-
 export default function AddTrade({ onAdded }: { onAdded: () => void }) {
   const [symbol, setSymbol] = useState("");
   const [entry, setEntry] = useState("");
@@ -92,3 +91,4 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
     </div>
   );
 }
+
