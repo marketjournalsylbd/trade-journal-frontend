@@ -155,7 +155,6 @@ export default function Dashboard() {
           📄 Recent Trades
         </h3>
 
-        {/* FIX: Remove extra TradeTable that caused double fetch */}
         <TradeTable />
 
         <div className="overflow-x-auto mt-8">
@@ -208,6 +207,48 @@ export default function Dashboard() {
           </table>
         </div>
       </div>
+
+      {/* 🌟 FOOTER UPGRADE 6 */}
+      <footer className="mt-16 bg-white/70 backdrop-blur-xl border border-gray-300 rounded-2xl shadow-lg p-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+          {/* Branding */}
+          <div>
+            <h2 className="text-2xl font-bold mb-2">📈 TradeTracker</h2>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              A clean & modern dashboard to manage and analyze your trading performance.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2 text-gray-700">
+              <li className="hover:text-blue-600 cursor-pointer">Dashboard</li>
+              <li className="hover:text-blue-600 cursor-pointer">Add Trade</li>
+              <li className="hover:text-blue-600 cursor-pointer">Reports</li>
+              <li className="hover:text-blue-600 cursor-pointer">Settings</li>
+            </ul>
+          </div>
+
+          {/* Social Media */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
+
+            <div className="flex items-center gap-4 mt-2">
+              <a className="text-blue-600 hover:text-blue-800 text-xl" href="#">📘</a>
+              <a className="text-pink-600 hover:text-pink-800 text-xl" href="#">📸</a>
+              <a className="text-black hover:text-gray-700 text-xl" href="#">🐦</a>
+              <a className="text-green-600 hover:text-green-800 text-xl" href="#">💬</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="text-center text-gray-700 text-sm pt-8 border-t mt-10">
+          © {new Date().getFullYear()} TradeTracker — All Rights Reserved.
+        </div>
+      </footer>
     </div>
   );
 }
