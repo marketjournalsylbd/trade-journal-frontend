@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+
 export default function AddTrade({ onAdded }: { onAdded: () => void }) {
   const [symbol, setSymbol] = useState("");
   const [entry, setEntry] = useState("");
@@ -10,6 +11,8 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
+  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
   const submitTrade = async () => {
     if (!symbol || !entry || !exit || !qty) {
       setMsg("All fields required.");
@@ -17,25 +20,34 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
     }
 
     setLoading(true);
+
     try {
-      await axios.post("http://localhost:8000/api/add-trade", {
+      await axios.post(`${API}/api/add-trade`, {
         symbol,
         entry_price: parseFloat(entry),
         exit_price: parseFloat(exit),
-        qty: parseInt(qty),
+        size: parseFloat(qty),       // ✅ FIX (backend expects size)
+        fees: 0,                     // default
+        strategy: "",                // default
         notes,
+        entry_time: new Date().toISOString(),  // required
+        exit_time: new Date().toISOString(),   // required
       });
 
       setMsg("Trade added successfully!");
       onAdded();
+
       setSymbol("");
       setEntry("");
       setExit("");
       setQty("");
       setNotes("");
+
     } catch (err) {
+      console.error(err);
       setMsg("Failed to add trade.");
     }
+
     setLoading(false);
   };
 
@@ -91,4 +103,3 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
     </div>
   );
 }
-
