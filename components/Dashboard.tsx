@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Line } from 'react-chartjs-2'
+import dynamic from "next/dynamic";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,9 +24,17 @@ ChartJS.register(
   Legend
 )
 
+// ⛔ FIX: Chart must be dynamically imported to disable SSR
+const Line = dynamic(() => import("react-chartjs-2").then(m => m.Line), {
+  ssr: false,
+})
+
 export default function Dashboard() {
   const [summary, setSummary] = useState<any>(null)
   const [trades, setTrades] = useState<any[]>([])
+
+  // Prevent SSR crash (Vercel static export)
+  if (typeof window === "undefined") return null;
 
   const fetchData = async () => {
     const s = await axios.get('http://localhost:8000/api/summary')
