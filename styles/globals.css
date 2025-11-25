@@ -5,6 +5,7 @@
      Next.js: import "../styles/globals.css"
 */
 
+
 /* 1) Simple reset / sensible defaults */
 *,
 *::before,
@@ -284,4 +285,5 @@ th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid color-mix(
 
 
 /* End of file */
+
 
