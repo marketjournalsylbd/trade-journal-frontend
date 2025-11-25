@@ -158,7 +158,6 @@ export default function Dashboard() {
 
         {/* FIX: Remove extra TradeTable that caused double fetch */}
         <TradeTable />
-        <Footer summary={summary} trades={trades} />
 
         <div className="overflow-x-auto mt-8">
           <table className="w-full border-collapse">
@@ -178,6 +177,7 @@ export default function Dashboard() {
                 </th>
                 <th className="border px-4 py-2 text-left text-sm text-gray-600">
                   PnL
+                  <Footer summary={summary} trades={trades} />
                 </th>
               </tr>
             </thead>
