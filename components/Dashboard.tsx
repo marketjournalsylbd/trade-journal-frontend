@@ -103,7 +103,7 @@ export default function Dashboard() {
           ))}
         </div>
       )}
-
+<TradeTable reload={reload} />
       {/* Equity Curve Chart */}
       <div className="mb-12 bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
         <h3 className="text-xl font-semibold mb-4">
