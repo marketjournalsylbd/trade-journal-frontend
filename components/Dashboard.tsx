@@ -78,16 +78,14 @@ export default function Dashboard() {
   const d = chartData();
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-
-      {/* Title */}
-      <h2 className="text-4xl font-extrabold tracking-tight mb-10 text-center md:text-left">
+    <div className="p-6">
+      <h2 className="text-4xl font-extrabold tracking-tight mb-8">
         📊 Performance Dashboard
       </h2>
 
       {/* Stats Cards */}
       {summary && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
           {[
             { label: "Total PnL", value: summary.total_pnl.toFixed(2) },
             { label: "Total Trades", value: summary.num_trades },
@@ -105,7 +103,7 @@ export default function Dashboard() {
           ].map((card, i) => (
             <div
               key={i}
-              className="p-6 rounded-2xl shadow-lg bg-white/80 backdrop-blur-md border border-gray-200 flex flex-col justify-center"
+              className="p-6 rounded-2xl shadow-lg bg-white/70 backdrop-blur-md border border-gray-200"
             >
               <p className="text-gray-600 text-sm tracking-wide">
                 {card.label}
@@ -117,12 +115,12 @@ export default function Dashboard() {
       )}
 
       {/* Equity Curve */}
-      <div className="mb-14 bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-        <h3 className="text-xl font-semibold mb-6 text-center md:text-left">
+      <div className="mb-12 bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+        <h3 className="text-xl font-semibold mb-4">
           📈 Equity Curve
         </h3>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-3xl">
           <Line
             data={{
               labels: d.labels,
@@ -151,32 +149,32 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Table Section */}
+      {/* Table */}
       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-        <h3 className="text-xl font-semibold mb-6 text-center md:text-left">
+        <h3 className="text-xl font-semibold mb-4">
           📄 Recent Trades
         </h3>
 
-        {/* FIX: duplicate fetch removed */}
+        {/* FIX: Remove extra TradeTable that caused double fetch */}
         <TradeTable />
 
-        <div className="overflow-x-auto mt-10">
-          <table className="w-full border-collapse rounded-lg overflow-hidden">
+        <div className="overflow-x-auto mt-8">
+          <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="border px-4 py-3 text-left text-sm text-gray-600">
+              <tr className="bg-gray-50">
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">
                   Symbol
                 </th>
-                <th className="border px-4 py-3 text-left text-sm text-gray-600">
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">
                   Entry
                 </th>
-                <th className="border px-4 py-3 text-left text-sm text-gray-600">
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">
                   Exit
                 </th>
-                <th className="border px-4 py-3 text-left text-sm text-gray-600">
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">
                   Size
                 </th>
-                <th className="border px-4 py-3 text-left text-sm text-gray-600">
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">
                   PnL
                 </th>
               </tr>
@@ -189,68 +187,19 @@ export default function Dashboard() {
                 .slice(0, 20)
                 .map((t) => (
                   <tr key={t.id} className="hover:bg-gray-50 transition">
-                    <td className="border px-4 py-3">{t.symbol}</td>
-                    <td className="border px-4 py-3">
+                    <td className="border px-4 py-2">{t.symbol}</td>
+                    <td className="border px-4 py-2">
                       {new Date(t.entry_time).toLocaleString()}
                     </td>
-                    <td className="border px-4 py-3">
+                    <td className="border px-4 py-2">
                       {new Date(t.exit_time).toLocaleString()}
                     </td>
-                    <td className="border px-4 py-3">{t.size}</td>
+                    <td className="border px-4 py-2">{t.size}</td>
                     <td
-                      className={`border px-4 py-3 font-semibold ${
+                      className={`border px-4 py-2 font-semibold ${
                         t.pnl > 0 ? "text-green-600" : "text-red-600"
-                        {/* Footer */}
-<div className="mt-20 w-full pt-10 border-t border-gray-200">
-  <div className="flex flex-col items-center">
-
-    <p className="text-gray-600 text-sm mb-4">
-      Follow me on social media
-    </p>
-
-    <div className="flex gap-5">
-      {/* Facebook */}
-      <a
-        href="https://facebook.com"
-        target="_blank"
-        className="p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all shadow-lg hover:scale-110"
-      >
-        <i className="fa-brands fa-facebook-f text-lg"></i>
-      </a>
-
-      {/* Instagram */}
-      <a
-        href="https://instagram.com"
-        target="_blank"
-        className="p-3 rounded-full bg-gradient-to-br from-pink-500 to-yellow-500 text-white transition-all shadow-lg hover:scale-110 hover:opacity-90"
-      >
-        <i className="fa-brands fa-instagram text-lg"></i>
-      </a>
-
-      {/* Twitter/X */}
-      <a
-        href="https://twitter.com"
-        target="_blank"
-        className="p-3 rounded-full bg-black text-white hover:bg-gray-800 transition-all shadow-lg hover:scale-110"
-      >
-        <i className="fa-brands fa-x-twitter text-lg"></i>
-      </a>
-
-      {/* WhatsApp */}
-      <a
-        href="https://wa.me/yourNumber"
-        target="_blank"
-        className="p-3 rounded-full bg-green-600 text-white hover:bg-green-700 transition-all shadow-lg hover:scale-110"
-      >
-        <i className="fa-brands fa-whatsapp text-lg"></i>
-      </a>
-    </div>
-
-    <p className="text-gray-400 text-xs mt-5">
-      © {new Date().getFullYear()} Trade Journal — All Rights Reserved
-    </p>
-  </div>
-</div>  }`}              >
+                      }`}
+                    >
                       {t.pnl.toFixed(2)}
                     </td>
                   </tr>
