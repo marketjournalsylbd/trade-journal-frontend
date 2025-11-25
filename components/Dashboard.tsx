@@ -209,7 +209,7 @@ export default function Dashboard() {
           </table>
         </div>
       </div>
-      <Footer />
+      <Footer summary={summary} trades={trades} />
     </div>
   );
 }
