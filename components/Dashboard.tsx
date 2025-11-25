@@ -200,8 +200,57 @@ export default function Dashboard() {
                     <td
                       className={`border px-4 py-3 font-semibold ${
                         t.pnl > 0 ? "text-green-600" : "text-red-600"
-                      }`}
-                    >
+                        {/* Footer */}
+<div className="mt-20 w-full pt-10 border-t border-gray-200">
+  <div className="flex flex-col items-center">
+
+    <p className="text-gray-600 text-sm mb-4">
+      Follow me on social media
+    </p>
+
+    <div className="flex gap-5">
+      {/* Facebook */}
+      <a
+        href="https://facebook.com"
+        target="_blank"
+        className="p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all shadow-lg hover:scale-110"
+      >
+        <i className="fa-brands fa-facebook-f text-lg"></i>
+      </a>
+
+      {/* Instagram */}
+      <a
+        href="https://instagram.com"
+        target="_blank"
+        className="p-3 rounded-full bg-gradient-to-br from-pink-500 to-yellow-500 text-white transition-all shadow-lg hover:scale-110 hover:opacity-90"
+      >
+        <i className="fa-brands fa-instagram text-lg"></i>
+      </a>
+
+      {/* Twitter/X */}
+      <a
+        href="https://twitter.com"
+        target="_blank"
+        className="p-3 rounded-full bg-black text-white hover:bg-gray-800 transition-all shadow-lg hover:scale-110"
+      >
+        <i className="fa-brands fa-x-twitter text-lg"></i>
+      </a>
+
+      {/* WhatsApp */}
+      <a
+        href="https://wa.me/yourNumber"
+        target="_blank"
+        className="p-3 rounded-full bg-green-600 text-white hover:bg-green-700 transition-all shadow-lg hover:scale-110"
+      >
+        <i className="fa-brands fa-whatsapp text-lg"></i>
+      </a>
+    </div>
+
+    <p className="text-gray-400 text-xs mt-5">
+      © {new Date().getFullYear()} Trade Journal — All Rights Reserved
+    </p>
+  </div>
+</div>  }`}              >
                       {t.pnl.toFixed(2)}
                     </td>
                   </tr>
