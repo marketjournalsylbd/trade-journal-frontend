@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import TradeTable from "./TradeTable";
-import Footer from "./Footer";
+import Footer from "./Footer"; // ✅ ADD THIS
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,9 +31,7 @@ const Line = dynamic(() => import("react-chartjs-2").then((m) => m.Line), {
   ssr: false,
 });
 
-// ⛔ FIX: API BASE URL — from env
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState<any>(null);
@@ -59,8 +58,7 @@ export default function Dashboard() {
   const chartData = () => {
     const sorted = [...trades].sort(
       (a, b) =>
-        new Date(a.exit_time).getTime() -
-        new Date(b.exit_time).getTime()
+        new Date(a.exit_time).getTime() - new Date(b.exit_time).getTime()
     );
 
     let cum = 0;
@@ -150,13 +148,12 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Table */}
+      {/* Trade Table */}
       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
         <h3 className="text-xl font-semibold mb-4">
           📄 Recent Trades
         </h3>
 
-        {/* FIX: Remove extra TradeTable that caused double fetch */}
         <TradeTable />
 
         <div className="overflow-x-auto mt-8">
@@ -209,7 +206,9 @@ export default function Dashboard() {
           </table>
         </div>
       </div>
-      <Footer summary={summary} trades={trades} />
+
+      {/* ✅ FINAL — Footer synced with Dashboard data */}
+      <Footer summary={summary || { total_pnl: 0, win_rate: 0, num_trades: 0 }} trades={trades} />
     </div>
   );
 }
