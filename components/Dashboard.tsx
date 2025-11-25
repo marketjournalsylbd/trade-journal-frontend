@@ -146,7 +146,7 @@ export default function Dashboard() {
         </h3>
 
  {/* Main Trade Table */}
-      <TradeTable reload={reload} />
+      <TradeTable />
         
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
