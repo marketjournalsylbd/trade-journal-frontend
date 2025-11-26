@@ -1,65 +1,51 @@
-// pages/index.tsx
 import React, { useState } from "react";
 import UploadCSV from "../components/UploadCSV";
 import Dashboard from "../components/Dashboard";
 import AddTrade from "../components/AddTrade";
-import Layout from "../components/Layout";
 
-export default function HomePage() {
+export default function Home() {
   const [reload, setReload] = useState(false);
 
   return (
-    <Layout>
-      {/* Top summary row (optional) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div className="p-4 rounded-lg bg-[#0a0c10] border border-gray-800/40">
-          <div className="text-xs text-gray-400">Total PnL</div>
-          <div className="text-2xl font-bold text-[#34d399]">+1,234.56</div>
-          <div className="text-xs text-gray-500 mt-2">Since inception</div>
-        </div>
+    <main className="min-h-screen w-full bg-gradient-to-br from-gray-50 via-white to-gray-100 py-10 px-6 text-gray-900">
 
-        <div className="p-4 rounded-lg bg-[#0a0c10] border border-gray-800/40">
-          <div className="text-xs text-gray-400">Trades</div>
-          <div className="text-2xl font-bold text-[#F5C518]">124</div>
-          <div className="text-xs text-gray-500 mt-2">All time</div>
-        </div>
-
-        <div className="p-4 rounded-lg bg-[#0a0c10] border border-gray-800/40">
-          <div className="text-xs text-gray-400">Win Rate</div>
-          <div className="text-2xl font-bold text-[#60a5fa]">62%</div>
-          <div className="text-xs text-gray-500 mt-2">Winning trades</div>
-        </div>
+      {/* Page Title */}
+      <div className="max-w-6xl mx-auto mb-10 text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight">
+          📊 Personal Trade Journal
+        </h1>
+        <p className="text-gray-600 mt-2 text-lg">
+          Import your trades and analyze performance with clean insights.
+        </p>
       </div>
 
-      {/* Main grid: left controls + right dashboard */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left column */}
-        <div className="col-span-1 space-y-6">
-          <div className="rounded-lg p-5 bg-[#07101a] border border-gray-800/40">
-            <h4 className="text-sm text-gray-300 font-semibold mb-3">Import CSV</h4>
+      {/* Main Layout */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        {/* Left – Upload CSV Card */}
+        <div className="md:col-span-1">
+          <div className="rounded-2xl shadow-xl bg-white/80 backdrop-blur-lg p-6 border border-gray-200">
             <UploadCSV onImported={() => setReload(!reload)} />
           </div>
-
-          <div className="rounded-lg p-5 bg-[#07101a] border border-gray-800/40">
-            <h4 className="text-sm text-gray-300 font-semibold mb-3">Add Trade</h4>
-            <AddTrade onAdded={() => setReload(!reload)} />
-          </div>
         </div>
 
-        {/* Right column */}
-        <div className="col-span-2">
-          <div className="rounded-lg p-5 bg-[#07101a] border border-gray-800/40 mb-6">
+        <div className="md:col-span-1">
+          <AddTrade onAdded={() => setReload(!reload)} />
+        </div>
+
+        {/* Right – Dashboard Area */}
+        <div className="md:col-span-2">
+          <div className="rounded-2xl shadow-xl bg-white/80 backdrop-blur-lg p-6 border border-gray-200">
             <Dashboard key={String(reload)} />
           </div>
-
-          <div className="rounded-lg p-4 bg-[#07101a] border border-gray-800/40">
-            <h4 className="text-sm text-gray-300 font-semibold mb-3">Recent Trades</h4>
-            {/* If you have TradeTable component, use it here */}
-            {/* <TradeTable /> */}
-            <div className="text-sm text-gray-400">Use TradeTable component here.</div>
-          </div>
         </div>
+
       </div>
-    </Layout>
+
+      {/* Footer */}
+      <footer className="mt-12 text-center text-gray-500 text-sm">
+        © {new Date().getFullYear()} Personal Trading Journal. All rights reserved.
+      </footer>
+    </main>
   );
 }
