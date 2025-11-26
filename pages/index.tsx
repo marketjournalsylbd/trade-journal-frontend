@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./globals.css";
+import "./styles/globals.css";
 import UploadCSV from "../components/UploadCSV";
 import Dashboard from "../components/Dashboard";
 import AddTrade from "../components/AddTrade";
