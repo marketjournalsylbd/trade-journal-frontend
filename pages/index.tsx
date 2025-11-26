@@ -40,10 +40,8 @@ export default function Home() {
             <Dashboard key={String(reload)} />
           </div>
         </div>
-
+</Layout>
       </div>
-
-      </Layout>
 
       {/* Footer */}
       <footer className="mt-12 text-center text-gray-500 text-sm">
