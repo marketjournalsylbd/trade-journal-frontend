@@ -8,7 +8,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
   const [qty, setQty] = useState("");
   const [notes, setNotes] = useState("");
 
-  const [direction, setDirection] = useState<"buy" | "sell">("buy"); // ✅ Added
+  const [direction, setDirection] = useState<"buy" | "SELL">("BUY"); // ✅ Added
 
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
@@ -45,7 +45,8 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
       setExit("");
       setQty("");
       setNotes("");
-      setDirection("buy");
+      setDirection("BUY");
+      setDirection("SELL");
 
     } catch (err) {
       console.error(err);
@@ -71,10 +72,10 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
         <select
           className="w-full p-3 rounded-xl border bg-white"
           value={direction}
-          onChange={(e) => setDirection(e.target.value as "buy" | "sell")}
+          onChange={(e) => setDirection(e.target.value as "BUY" | "SELL")}
         >
-          <option value="buy">Buy Trade</option>
-          <option value="sell">Sell Trade</option>
+          <option value="BUY">BUY Trade</option>
+          <option value="SELL">SELL Trade</option>
         </select>
 
         <input
@@ -119,3 +120,4 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
     </div>
   );
 }
+
