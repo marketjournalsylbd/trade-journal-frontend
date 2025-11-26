@@ -2,23 +2,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 
-/**
- * Full-featured TradeTable
- * Features:
- * - Fetch /api/trades
- * - Search (symbol, strategy, notes)
- * - Sort by columns (asc/desc)
- * - Pagination
- * - Row details modal
- * - Edit modal (PUT /api/trades/:id)
- * - Delete trade (DELETE /api/trades/:id)
- * - Export visible trades to CSV
- *
- * Notes:
- * - Expects API base in process.env.NEXT_PUBLIC_API_URL
- * - Date fields are displayed as local strings (if present)
- */
-
 type Trade = {
   id: number;
   symbol: string;
@@ -644,4 +627,5 @@ function EditForm({
       </div>
     </div>
   );
+
 }
