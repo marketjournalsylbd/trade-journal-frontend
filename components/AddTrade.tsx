@@ -7,6 +7,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
   const [exit, setExit] = useState("");
   const [qty, setQty] = useState("");
   const [notes, setNotes] = useState("");
+  const [side, setSide] = useState<"BUY" | "SELL">("BUY"); // ✅ NEW
 
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
@@ -26,12 +27,13 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
         symbol,
         entry_price: parseFloat(entry),
         exit_price: parseFloat(exit),
-        size: parseFloat(qty),       // ✅ FIX (backend expects size)
-        fees: 0,                     // default
-        strategy: "",                // default
+        size: parseFloat(qty),
+        side, // ✅ NEW field
+        fees: 0,
+        strategy: "",
         notes,
-        entry_time: new Date().toISOString(),  // required
-        exit_time: new Date().toISOString(),   // required
+        entry_time: new Date().toISOString(),
+        exit_time: new Date().toISOString(),
       });
 
       setMsg("Trade added successfully!");
@@ -42,6 +44,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
       setExit("");
       setQty("");
       setNotes("");
+      setSide("BUY");
 
     } catch (err) {
       console.error(err);
@@ -56,12 +59,39 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
       <h3 className="text-xl font-bold mb-4">➕ Add Trade</h3>
 
       <div className="space-y-3">
+
+        {/* Trade Side Selector */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => setSide("BUY")}
+            className={`flex-1 p-3 rounded-xl border font-semibold transition 
+              ${side === "BUY"
+                ? "bg-green-500 text-white border-green-600"
+                : "bg-white border-gray-300 text-gray-700"
+              }`}
+          >
+            BUY
+          </button>
+
+          <button
+            onClick={() => setSide("SELL")}
+            className={`flex-1 p-3 rounded-xl border font-semibold transition
+              ${side === "SELL"
+                ? "bg-red-500 text-white border-red-600"
+                : "bg-white border-gray-300 text-gray-700"
+              }`}
+          >
+            SELL
+          </button>
+        </div>
+
         <input
           placeholder="Symbol (e.g., EURUSD)"
           className="w-full p-3 rounded-xl border"
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
         />
+
         <input
           placeholder="Entry Price"
           type="number"
@@ -69,6 +99,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={entry}
           onChange={(e) => setEntry(e.target.value)}
         />
+
         <input
           placeholder="Exit Price"
           type="number"
@@ -76,6 +107,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={exit}
           onChange={(e) => setExit(e.target.value)}
         />
+
         <input
           placeholder="Quantity"
           type="number"
@@ -83,6 +115,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={qty}
           onChange={(e) => setQty(e.target.value)}
         />
+
         <textarea
           placeholder="Notes (optional)"
           className="w-full p-3 rounded-xl border"
