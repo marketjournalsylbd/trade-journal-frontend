@@ -8,9 +8,6 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
   const [qty, setQty] = useState("");
   const [notes, setNotes] = useState("");
 
-  // NEW → Buy/Sell state
-  const [direction, setDirection] = useState<"BUY" | "SELL">("BUY");
-
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -29,28 +26,22 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
         symbol,
         entry_price: parseFloat(entry),
         exit_price: parseFloat(exit),
-        size: parseFloat(qty),
-        fees: 0,
-        strategy: "",
+        size: parseFloat(qty),       // ✅ FIX (backend expects size)
+        fees: 0,                     // default
+        strategy: "",                // default
         notes,
-
-        // NEW → Send trade direction
-        direction, // "BUY" or "SELL"
-
-        entry_time: new Date().toISOString(),
-        exit_time: new Date().toISOString(),
+        entry_time: new Date().toISOString(),  // required
+        exit_time: new Date().toISOString(),   // required
       });
 
       setMsg("Trade added successfully!");
       onAdded();
 
-      // Reset all fields
       setSymbol("");
       setEntry("");
       setExit("");
       setQty("");
       setNotes("");
-      setDirection("BUY");
 
     } catch (err) {
       console.error(err);
@@ -71,17 +62,6 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
         />
-
-        {/* NEW — Trade Direction */}
-        <select
-          className="w-full p-3 rounded-xl border bg-white"
-          value={direction}
-          onChange={(e) => setDirection(e.target.value as "BUY" | "SELL")}
-        >
-          <option value="BUY">Buy Trade</option>
-          <option value="SELL">Sell Trade</option>
-        </select>
-
         <input
           placeholder="Entry Price"
           type="number"
@@ -89,7 +69,6 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={entry}
           onChange={(e) => setEntry(e.target.value)}
         />
-
         <input
           placeholder="Exit Price"
           type="number"
@@ -97,7 +76,6 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={exit}
           onChange={(e) => setExit(e.target.value)}
         />
-
         <input
           placeholder="Quantity"
           type="number"
@@ -105,7 +83,6 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={qty}
           onChange={(e) => setQty(e.target.value)}
         />
-
         <textarea
           placeholder="Notes (optional)"
           className="w-full p-3 rounded-xl border"
