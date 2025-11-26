@@ -1,9 +1,10 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import TradeTable from "./TradeTable";
-import Footer from "./Footer"; // ✅ ADD THIS
+import Footer from "./Footer";
 
 import {
   Chart as ChartJS,
@@ -26,7 +27,6 @@ ChartJS.register(
   Legend
 );
 
-// ⛔ FIX: dynamic import to avoid SSR crash
 const Line = dynamic(() => import("react-chartjs-2").then((m) => m.Line), {
   ssr: false,
 });
@@ -77,14 +77,16 @@ export default function Dashboard() {
   const d = chartData();
 
   return (
-    <div className="p-6">
-      <h2 className="text-4xl font-extrabold tracking-tight mb-8">
-        📊 Performance Dashboard
+    <div className="p-6 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] min-h-screen text-white">
+
+      {/* Title */}
+      <h2 className="text-4xl font-extrabold tracking-tight mb-10 text-center bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+        Performance Dashboard
       </h2>
 
-      {/* Stats Cards */}
+      {/* Summary Cards */}
       {summary && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
           {[
             { label: "Total PnL", value: summary.total_pnl.toFixed(2) },
             { label: "Total Trades", value: summary.num_trades },
@@ -102,21 +104,19 @@ export default function Dashboard() {
           ].map((card, i) => (
             <div
               key={i}
-              className="p-6 rounded-2xl shadow-lg bg-white/70 backdrop-blur-md border border-gray-200"
+              className="p-6 rounded-2xl shadow-lg bg-white/10 backdrop-blur-xl border border-white/20 hover:scale-[1.02] transition duration-300"
             >
-              <p className="text-gray-600 text-sm tracking-wide">
-                {card.label}
-              </p>
-              <p className="text-2xl font-bold mt-2">{card.value}</p>
+              <p className="text-gray-300 text-sm">{card.label}</p>
+              <p className="text-3xl font-bold mt-2 text-cyan-300">{card.value}</p>
             </div>
           ))}
         </div>
       )}
 
       {/* Equity Curve */}
-      <div className="mb-12 bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-        <h3 className="text-xl font-semibold mb-4">
-          📈 Equity Curve
+      <div className="mb-12 bg-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-xl border border-white/20">
+        <h3 className="text-2xl font-semibold mb-6 text-cyan-300">
+          Equity Curve
         </h3>
 
         <div className="max-w-3xl">
@@ -127,54 +127,42 @@ export default function Dashboard() {
                 {
                   label: "Equity Over Time",
                   data: d.data,
-                  borderColor: "#2563eb",
-                  backgroundColor: "rgba(37, 99, 235, 0.2)",
+                  borderColor: "#22d3ee",
+                  backgroundColor: "rgba(34, 211, 238, 0.15)",
                   borderWidth: 3,
-                  tension: 0.25,
+                  tension: 0.3,
                   pointRadius: 3,
                 },
               ],
             }}
             options={{
-              plugins: {
-                legend: { display: false },
-              },
+              plugins: { legend: { display: false } },
               scales: {
-                x: { ticks: { color: "#555" } },
-                y: { ticks: { color: "#555" } },
+                x: { ticks: { color: "#cbd5e1" } },
+                y: { ticks: { color: "#cbd5e1" } },
               },
             }}
           />
         </div>
       </div>
 
-      {/* Trade Table */}
-      <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-        <h3 className="text-xl font-semibold mb-4">
-          📄 Recent Trades
+      {/* Trade History Table */}
+      <div className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-xl border border-white/20">
+        <h3 className="text-2xl font-semibold mb-6 text-cyan-300">
+          Recent Trades
         </h3>
 
         <TradeTable />
 
-        <div className="overflow-x-auto mt-8">
-          <table className="w-full border-collapse">
+        <div className="overflow-x-auto mt-10 rounded-xl border border-white/20">
+          <table className="w-full bg-white/5 backdrop-blur-xl">
             <thead>
-              <tr className="bg-gray-50">
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
-                  Symbol
-                </th>
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
-                  Entry
-                </th>
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
-                  Exit
-                </th>
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
-                  Size
-                </th>
-                <th className="border px-4 py-2 text-left text-sm text-gray-600">
-                  PnL
-                </th>
+              <tr className="bg-white/10">
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Symbol</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Entry</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Exit</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Size</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">PnL</th>
               </tr>
             </thead>
 
@@ -184,18 +172,18 @@ export default function Dashboard() {
                 .reverse()
                 .slice(0, 20)
                 .map((t) => (
-                  <tr key={t.id} className="hover:bg-gray-50 transition">
-                    <td className="border px-4 py-2">{t.symbol}</td>
-                    <td className="border px-4 py-2">
+                  <tr key={t.id} className="hover:bg-white/10 transition">
+                    <td className="px-4 py-3">{t.symbol}</td>
+                    <td className="px-4 py-3">
                       {new Date(t.entry_time).toLocaleString()}
                     </td>
-                    <td className="border px-4 py-2">
+                    <td className="px-4 py-3">
                       {new Date(t.exit_time).toLocaleString()}
                     </td>
-                    <td className="border px-4 py-2">{t.size}</td>
+                    <td className="px-4 py-3">{t.size}</td>
                     <td
-                      className={`border px-4 py-2 font-semibold ${
-                        t.pnl > 0 ? "text-green-600" : "text-red-600"
+                      className={`px-4 py-3 font-semibold ${
+                        t.pnl > 0 ? "text-green-400" : "text-red-400"
                       }`}
                     >
                       {t.pnl.toFixed(2)}
@@ -207,8 +195,10 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ✅ FINAL — Footer synced with Dashboard data */}
-      <Footer summary={summary || { total_pnl: 0, win_rate: 0, num_trades: 0 }} trades={trades} />
+      <Footer
+        summary={summary || { total_pnl: 0, win_rate: 0, num_trades: 0 }}
+        trades={trades}
+      />
     </div>
   );
 }
