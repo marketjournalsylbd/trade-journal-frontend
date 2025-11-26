@@ -8,6 +8,8 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
   const [qty, setQty] = useState("");
   const [notes, setNotes] = useState("");
 
+  const [direction, setDirection] = useState<"buy" | "sell">("buy"); // ✅ Added
+
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -26,12 +28,13 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
         symbol,
         entry_price: parseFloat(entry),
         exit_price: parseFloat(exit),
-        size: parseFloat(qty),       // ✅ FIX (backend expects size)
-        fees: 0,                     // default
-        strategy: "",                // default
+        size: parseFloat(qty),
+        direction,                   // ✅ send buy/sell direction
+        fees: 0,
+        strategy: "",
         notes,
-        entry_time: new Date().toISOString(),  // required
-        exit_time: new Date().toISOString(),   // required
+        entry_time: new Date().toISOString(),
+        exit_time: new Date().toISOString(),
       });
 
       setMsg("Trade added successfully!");
@@ -42,6 +45,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
       setExit("");
       setQty("");
       setNotes("");
+      setDirection("buy");
 
     } catch (err) {
       console.error(err);
@@ -62,6 +66,17 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
         />
+
+        {/* Direction Select */}
+        <select
+          className="w-full p-3 rounded-xl border bg-white"
+          value={direction}
+          onChange={(e) => setDirection(e.target.value as "buy" | "sell")}
+        >
+          <option value="buy">Buy Trade</option>
+          <option value="sell">Sell Trade</option>
+        </select>
+
         <input
           placeholder="Entry Price"
           type="number"
@@ -83,6 +98,7 @@ export default function AddTrade({ onAdded }: { onAdded: () => void }) {
           value={qty}
           onChange={(e) => setQty(e.target.value)}
         />
+
         <textarea
           placeholder="Notes (optional)"
           className="w-full p-3 rounded-xl border"
