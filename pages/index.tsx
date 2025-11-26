@@ -19,7 +19,7 @@ export default function Home() {
           Import your trades and analyze performance with clean insights.
         </p>
       </div>
-
+</Layout>
       {/* Main Layout */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
         
@@ -40,7 +40,6 @@ export default function Home() {
             <Dashboard key={String(reload)} />
           </div>
         </div>
-</Layout>
       </div>
 
       {/* Footer */}
