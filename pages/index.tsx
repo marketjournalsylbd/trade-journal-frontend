@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Layout from "../components/Layout";
 import UploadCSV from "../components/UploadCSV";
 import Dashboard from "../components/Dashboard";
 import AddTrade from "../components/AddTrade";
@@ -41,6 +42,8 @@ export default function Home() {
         </div>
 
       </div>
+
+      </Layout>
 
       {/* Footer */}
       <footer className="mt-12 text-center text-gray-500 text-sm">
