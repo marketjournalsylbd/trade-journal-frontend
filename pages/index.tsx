@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./globals.css";
 import UploadCSV from "../components/UploadCSV";
 import Dashboard from "../components/Dashboard";
 import AddTrade from "../components/AddTrade";
@@ -8,62 +9,55 @@ export default function Home() {
 
   return (
     <main className="
-      min-h-screen w-full 
-      bg-gradient-to-br from-[#0a0f1f] via-[#0d1428] to-[#0a0f1f]
-      text-gray-100 py-16 px-6 relative overflow-hidden
+      min-h-screen w-full relative overflow-hidden 
+      bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 
+      text-gray-100 px-6 py-12
     ">
-
-      {/* Floating Ambient Glow Orbs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 left-0 w-[450px] h-[450px] 
-            bg-cyan-500/20 blur-[140px] rounded-full" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] 
-            bg-blue-600/20 blur-[160px] rounded-full" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-            w-[650px] h-[650px] bg-purple-500/10 blur-[180px] rounded-full" />
+      
+      {/* Floating Glow Orbs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-24 left-12 w-[380px] h-[380px] bg-blue-500/20 blur-[130px] rounded-full" />
+        <div className="absolute bottom-10 right-10 w-[420px] h-[420px] bg-cyan-400/20 blur-[150px] rounded-full" />
       </div>
 
       {/* Page Title */}
-      <div className="max-w-6xl mx-auto mb-16 text-center relative z-10">
+      <div className="max-w-6xl mx-auto text-center mb-16 relative z-10">
         <h1 className="
-          text-6xl font-extrabold tracking-tight 
-          bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-300 
-          bg-clip-text text-transparent drop-shadow-[0_0_18px_rgba(0,150,255,0.5)]
+          text-5xl font-extrabold tracking-tight 
+          bg-gradient-to-r from-cyan-300 to-blue-500 
+          bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,200,255,0.35)]
         ">
           📊 Personal Trade Journal
         </h1>
 
-        <p className="text-gray-300 mt-4 text-xl opacity-90">
-          Upload trades, track performance & grow as a disciplined trader.
+        <p className="text-gray-300 mt-3 text-lg opacity-90">
+          Import trades, log positions & monitor performance — all in one dashboard.
         </p>
       </div>
 
-      {/* Main Layout */}
-      <div className="
-        max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10
-        relative z-10
-      ">
+      {/* Layout Grid */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
 
         {/* Upload CSV */}
         <div className="md:col-span-1">
           <div className="
-            rounded-2xl p-7 border border-white/10 bg-white/5 backdrop-blur-xl 
-            shadow-[0_0_35px_rgba(0,255,255,0.12)]
-            hover:shadow-[0_0_50px_rgba(0,255,255,0.2)]
-            hover:bg-white/10
+            rounded-2xl p-6 border border-cyan-500/10 
+            bg-white/5 backdrop-blur-xl 
+            shadow-[0_0_30px_rgba(0,255,255,0.08)] 
+            hover:shadow-[0_0_35px_rgba(0,255,255,0.18)]
             transition-all duration-300
           ">
             <UploadCSV onImported={() => setReload(!reload)} />
           </div>
         </div>
 
-        {/* Add Trade Manually */}
+        {/* Add Trade */}
         <div className="md:col-span-1">
           <div className="
-            rounded-2xl p-7 border border-white/10 bg-white/5 backdrop-blur-xl 
-            shadow-[0_0_35px_rgba(0,255,180,0.12)]
-            hover:shadow-[0_0_50px_rgba(0,255,180,0.2)]
-            hover:bg-white/10
+            rounded-2xl p-6 border border-emerald-500/10 
+            bg-white/5 backdrop-blur-xl 
+            shadow-[0_0_30px_rgba(0,255,180,0.08)] 
+            hover:shadow-[0_0_35px_rgba(0,255,180,0.18)]
             transition-all duration-300
           ">
             <AddTrade onAdded={() => setReload(!reload)} />
@@ -73,10 +67,10 @@ export default function Home() {
         {/* Dashboard */}
         <div className="md:col-span-2">
           <div className="
-            rounded-2xl p-7 border border-white/10 bg-white/5 backdrop-blur-2xl 
-            shadow-[0_0_40px_rgba(0,180,255,0.12)]
-            hover:shadow-[0_0_60px_rgba(0,180,255,0.2)]
-            hover:bg-white/10
+            rounded-2xl p-6 border border-blue-500/10 
+            bg-white/5 backdrop-blur-2xl 
+            shadow-[0_0_30px_rgba(0,180,255,0.08)] 
+            hover:shadow-[0_0_35px_rgba(0,180,255,0.18)]
             transition-all duration-300
           ">
             <Dashboard key={String(reload)} />
@@ -85,13 +79,9 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-20 text-center text-gray-400 text-sm relative z-10">
-        <p className="opacity-70 tracking-wide">
-          © {new Date().getFullYear()} Personal Trading Journal — 
-          <span className="text-cyan-300"> Stay Disciplined. Trade Smart. </span>
-        </p>
+      <footer className="text-center mt-16 relative z-10 opacity-70 text-sm">
+        © {new Date().getFullYear()} Personal Trading Journal — Built with Discipline 📈
       </footer>
-
     </main>
   );
 }
