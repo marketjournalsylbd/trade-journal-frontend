@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import ../styles/globals.css
 import axios from "axios";
 import dynamic from "next/dynamic";
 import TradeTable from "./TradeTable";
